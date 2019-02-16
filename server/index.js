@@ -9,7 +9,11 @@ const
   web3 = require('./web3'),
   ipfs = require('./ipfs'),
   StoreData = require('./StoreData'),
+  Api = require('./api'),
   fileUpload = require('express-fileupload');
+
+// Import Mongoose
+let mongoose = require('mongoose');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,9 +22,11 @@ app.use(bodyParser.raw({ extended: true }));
 
 app.use(fileUpload());
 
+mongoose.connect('mongodb://akshay:akshay12@ds337985.mlab.com:37985/medibo');
+
 // app.use(fileUpload({
 //   limits: { fileSize: 50 * 1024 * 1024 },
-// }));
+// }));,.oi
 
 //app port
 app.set('port', process.env.PORT || 3995);
@@ -68,7 +74,11 @@ app.post('/upload', async (req, res) => {
         console.log("transaction hash is ", transactionHash);
         res.send({
           code: 200,
-          result: "Success"
+          result: "Success",
+          data: {
+            ipfs: ipfsHash,
+            trxHash: transactionHash
+          }
         })
       }
     });
@@ -77,6 +87,13 @@ app.post('/upload', async (req, res) => {
   //return the response
 
 });
+
+app.get('/doctor/:email', Api.getDoctor)
+app.get('/patients', Api.getPatients)
+app.get('/patient/:email', Api.getPatient)
+
+
+
 
 //start server
 app.listen(app.get('port'), () => {

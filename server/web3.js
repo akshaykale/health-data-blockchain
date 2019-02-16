@@ -1,3 +1,5 @@
-const Web3 = new require('web3')(window.Web3.currentProvider);
+const Web3 = require('web3')
 
-export default Web3;
+const _ = new Web3('ws://127.0.0.1:7545')//(window.Web3.currentProvider);
+
+module.exports = _

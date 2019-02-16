@@ -1,5 +1,5 @@
-const
-  web3 = require('./web3')
+import web3 from './web3';
+
 
 const contractAddress = "0xF974c529a674b0999057266C4AE621791923377E"
 
@@ -36,6 +36,5 @@ const abi = [
   }
 ];
 
-const _ = new web3.eth.Contract(abi, contractAddress);
-
-module.exports = _
+const StoreData = new web3.eth.Contract(abi, contractAddress);
+export default StoreData
